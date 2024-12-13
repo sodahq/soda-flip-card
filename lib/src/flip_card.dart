@@ -309,8 +309,12 @@ class FlipCardState extends State<FlipCard>
   @override
   Widget build(BuildContext context) {
     final child = FlipCardTransition(
-      front: widget.front,
-      back: widget.back,
+      front: !widget.flipOnTouch && widget.initialSide == CardSide.back
+          ? const SizedBox()
+          : widget.front,
+      back: !widget.flipOnTouch && widget.initialSide == CardSide.front
+          ? const SizedBox()
+          : widget.back,
       animation: controller,
       direction: widget.direction,
       fill: widget.fill,
