@@ -84,6 +84,7 @@ class FlipCard extends StatefulWidget {
     this.fill = Fill.none,
     this.initialSide = CardSide.front,
     this.autoFlipDuration,
+    this.isFlipDisabled = false,
   });
 
   /// The initially shown side of the card
@@ -117,6 +118,8 @@ class FlipCard extends StatefulWidget {
   ///
   /// To manually flip a card from your code use a [controller].
   final bool flipOnTouch;
+
+  final bool isFlipDisabled;
 
   /// This callback is triggered when the card flipping is started
   final VoidCallback? onFlip;
@@ -309,10 +312,10 @@ class FlipCardState extends State<FlipCard>
   @override
   Widget build(BuildContext context) {
     final child = FlipCardTransition(
-      front: !widget.flipOnTouch && widget.initialSide == CardSide.back
+      front: widget.isFlipDisabled && widget.initialSide == CardSide.back
           ? const SizedBox()
           : widget.front,
-      back: !widget.flipOnTouch && widget.initialSide == CardSide.front
+      back: widget.isFlipDisabled && widget.initialSide == CardSide.front
           ? const SizedBox()
           : widget.back,
       animation: controller,
