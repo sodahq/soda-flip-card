@@ -204,7 +204,6 @@ class FlipTransition extends AnimatedWidget {
     return Transform(
       transform: transform,
       alignment: FractionalOffset.center,
-      filterQuality: FilterQuality.none,
       child: child,
     );
   }
