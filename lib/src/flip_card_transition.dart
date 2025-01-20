@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'flip_card.dart';
@@ -204,6 +205,7 @@ class FlipTransition extends AnimatedWidget {
     return Transform(
       transform: transform,
       alignment: FractionalOffset.center,
+      filterQuality: kIsWeb ? null : FilterQuality.none,
       child: child,
     );
   }
