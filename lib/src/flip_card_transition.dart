@@ -162,6 +162,7 @@ class _FlipCardTransitionState extends State<FlipCardTransition> {
             : (widget.backAnimator ?? FlipCardTransition.defaultBackAnimator)
                 .animate(widget.animation),
         direction: widget.direction,
+        isOffstageEnabled: isFront ? !showingFront : showingFront,
         child: child,
       ),
     );
@@ -178,6 +179,7 @@ class FlipTransition extends AnimatedWidget {
     required this.child,
     required this.animation,
     required this.direction,
+    required this.isOffstageEnabled,
   }) : super(listenable: animation);
 
   /// The [Animation] that controls this transition
@@ -188,6 +190,8 @@ class FlipTransition extends AnimatedWidget {
 
   /// The direction of the flip
   final Axis direction;
+
+  final bool isOffstageEnabled;
 
   @override
   Widget build(BuildContext context) {
@@ -206,7 +210,16 @@ class FlipTransition extends AnimatedWidget {
       transform: transform,
       alignment: FractionalOffset.center,
       filterQuality: kIsWeb ? null : FilterQuality.none,
-      child: child,
+      child: AnimatedBuilder(
+        animation: animation,
+        builder: (context, child) {
+          return Offstage(
+            offstage: !animation.isAnimating && isOffstageEnabled,
+            child: child,
+          );
+        },
+        child: child,
+      ),
     );
   }
 }
